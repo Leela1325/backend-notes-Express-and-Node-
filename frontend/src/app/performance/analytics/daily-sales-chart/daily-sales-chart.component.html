@@ -1,0 +1,71 @@
+<div class="h-100">
+  <div class="card-body">
+    <div class="d-flex align-items-start justify-content-between mb-3 flex-wrap gap-2">
+      <div>
+        <h6 class="fw-bold text-dark mb-1">Daily Revenue</h6>
+        <small class="text-muted fw-medium">
+          Trend over last {{ selectedDays }} days · {{ selectedCategory?.name }}
+        </small>
+      </div>
+
+      <div class="d-flex align-items-center gap-2 flex-wrap">
+        <!-- Category Select: stores _id as value, displays name as text -->
+        <select
+          class="form-select form-select-sm border-0 bg-body-secondary fw-semibold rounded-3"
+          style="width: auto;"
+          [value]="selectedCategory?._id"
+          #categorySelect
+          (change)="changeCategory(categorySelect.value)"
+        >
+          @for (item of categories; track item._id) {
+            <option [value]="item._id">{{ item.name }}</option>
+          }
+        </select>
+
+        <!-- Range Toggle (unchanged) -->
+        <div class="d-inline-flex bg-body-secondary rounded-3 p-1 gap-1" role="group">
+          @for (d of [7, 14, 30]; track d) {
+            <button
+              type="button"
+              class="btn btn-sm border-0 rounded-2"
+              [class.bg-white]="selectedDays === d"
+              [class.text-primary]="selectedDays === d"
+              [class.fw-bold]="selectedDays === d"
+              [class.shadow-sm]="selectedDays === d"
+              [class.text-muted]="selectedDays !== d"
+              (click)="changeRange(d)"
+            >
+              {{ d }}D
+            </button>
+          }
+        </div>
+      </div>
+    </div>
+
+    @if (isLoading) {
+      <div class="skeleton-bars">
+        @for (h of [60, 85, 45, 70, 90, 55, 75, 40, 80, 60, 70]; track $index) {
+          <div class="skeleton-bar" [style.height.%]="h"></div>
+        }
+      </div>
+      <div class="skeleton-axis mt-1"></div>
+    } @else if (chartOptions) {
+      <apx-chart
+        [series]="chartOptions.series"
+        [chart]="chartOptions.chart"
+        [xaxis]="chartOptions.xaxis"
+        [yaxis]="chartOptions.yaxis"
+        [dataLabels]="chartOptions.dataLabels"
+        [plotOptions]="chartOptions.plotOptions"
+        [colors]="chartOptions.colors"
+        [tooltip]="chartOptions.tooltip"
+        [grid]="chartOptions.grid"
+      ></apx-chart>
+    } @else {
+      <div class="d-flex flex-column align-items-center justify-content-center text-muted py-5">
+        <i class="bi bi-bar-chart-line fs-1 mb-2 opacity-25"></i>
+        <span class="fw-medium small">No data available</span>
+      </div>
+    }
+  </div>
+</div>

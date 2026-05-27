@@ -1,0 +1,83 @@
+<div class="border-0">
+  <div class="d-flex">
+    <div class="w-75 px-2">
+      <div class="span my-2">Worst Performing Products</div>
+      <div class="mx-2 select-wrapper">
+          <select
+            class="form-select form-select-sm border-0 bg-body-secondary fw-semibold rounded-3 category-select"
+            [value]="selectedCategory?._id"
+            #categorySelect
+            (change)="changeCategory(categorySelect.value)"
+          >
+            @for (name of categories; track $index) {
+              <option value="{{name._id}}">{{name.name.toUpperCase()}}</option>
+            }
+          </select>
+      </div> 
+    </div>
+    <div class="w-25 m-0 p-1">
+      <div class="align-items-center bg-body-secondary rounded-3 p-1 gap-1" role="group">
+          @for (d of [7, 14, 30]; track d) {
+            <div class="row">
+              <button
+              type="button"
+              class="btn btn-sm border-0 rounded-2 range-btn"
+              [class.bg-white]="selectedDays === d"
+              [class.text-primary]="selectedDays === d"
+              [class.fw-bold]="selectedDays === d"
+              [class.shadow-sm]="selectedDays === d"
+              [class.text-muted]="selectedDays !== d"
+              (click)="changeRange(d)"
+              >
+              {{ d }}D
+            </button>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>
+@if (isLoading) {
+  <div class="px-2">
+    @for (i of [1,2,3,4,5,6]; track i) {
+      <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
+        <div class="skeleton-text" style="width: 60%; height: 14px;"></div>
+        <div class="skeleton-text" style="width: 20%; height: 20px;"></div>
+      </div>
+    }
+  </div>
+} @else if (badPerformingData.length) {
+  <div class="table-responsive" style="height: 300px;">
+    <table class="table table-borderless align-middle mb-0">
+        <thead>
+        <tr class="border-bottom">
+            <th class="text-muted fw-semibold text-uppercase small py-2">Product</th>
+            <th class="text-muted fw-semibold text-uppercase small py-2 text-end">Sales</th>
+        </tr>
+        </thead>
+        <tbody>
+        @for (item of badPerformingData; track $index) {
+            <tr class="row-hover">
+            <td class="py-2">
+                <div class="d-flex align-items-center gap-2">
+                <span class="rank-badge">{{ $index + 1 }}</span>
+                <span class="fw-medium text-dark">{{ item.productName }}</span>
+                </div>
+            </td>
+            <td class="py-2 text-end">
+                <span class="badge bg-danger-subtle text-danger fw-semibold rounded-pill px-3 py-1">
+                {{ item.value.toLocaleString() }}
+                </span>
+            </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+  </div>
+} @else {
+  <div class="d-flex flex-column align-items-center justify-content-center text-muted py-5">
+    <i class="bi bi-table fs-1 mb-2 opacity-25"></i>
+    <span class="fw-medium small">No data available</span>
+  </div>
+}
+

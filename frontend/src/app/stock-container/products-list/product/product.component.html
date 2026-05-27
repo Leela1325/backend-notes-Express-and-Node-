@@ -1,0 +1,116 @@
+<td class="ps-4">
+  <div class="d-flex flex-column">
+    <span class="fw-bold text-dark mb-0">{{ product().name }}</span>
+    <span class="text-muted" style="font-size: 0.7rem;">ID: #{{ product().id }}</span>
+  </div>
+</td>
+ 
+<td class="text-center py-3">
+  <div class="d-flex flex-column align-items-center gap-2">
+ 
+    <!-- total qty pill -->
+    <span class="fw-bold text-dark px-3 py-1 rounded-pill bg-light border" style="font-size: 0.85rem; letter-spacing: -0.3px;">
+      {{ getTotalQuantity(product().inventory) }} units
+    </span>
+ 
+    <!-- one compact row per batch -->
+    <div class="d-flex flex-column gap-1 w-100" style="max-width: 200px;">
+      @for (batch of product().inventory; track batch._id) {
+        <div
+          class="rounded-3 border px-2 py-1"
+          [ngClass]="getBatchClass(batch.expirydate)"
+          style="font-size: 0.7rem;"
+        >
+          <div class="d-flex align-items-center justify-content-between gap-2">
+ 
+            <!-- qty + price -->
+            <div class="d-flex align-items-center gap-1 fw-semibold text-nowrap">
+              <i class="bi bi-layers" style="font-size: 0.65rem; opacity:0.7;"></i>
+              {{ batch.quantity }}u &nbsp;·&nbsp; ₹{{ batch.price }}
+            </div>
+ 
+            <!-- expiry or expired label -->
+            <div class="d-flex align-items-center gap-1 text-nowrap">
+              @if (isExpired(batch.expirydate)) {
+                <span class="badge bg-danger text-white fw-bold px-2" style="font-size: 0.6rem; letter-spacing: 0.3px;">
+                  <i class="bi bi-exclamation-triangle-fill me-1"></i>EXPIRED
+                </span>
+              } @else {
+                <span class="opacity-75" style="font-size: 0.65rem;">
+                  <i class="bi bi-calendar2 me-1"></i>{{ batch.expirydate | date:'dd MMM yy' }}
+                </span>
+              }
+ 
+              <!-- delete × only when 2+ batches -->
+              @if (product().inventory.length > 1) {
+                <i
+                  class="bi bi-x-lg"
+                  style="cursor: pointer; font-size: 0.6rem; opacity: 0.5;"
+                  (click)="onDeleteBatch(batch._id)"
+                  title="Remove batch"
+                ></i>
+              }
+            </div>
+ 
+          </div>
+        </div>
+      }
+    </div>
+ 
+  </div>
+</td>
+ 
+<td>
+  <div class="d-flex flex-column text-muted small">
+    <div class="fw-bold text-dark d-flex align-items-center mb-1">
+      <i class="bi bi-alarm me-2 text-danger opacity-75"></i>
+      Next: {{ getNearestExpiry(product().inventory) | date:'dd MMM yyyy' }}
+    </div>
+    <ul class="list-unstyled mb-0 ps-3 border-start border-2 border-light-subtle ms-1" style="font-size: 0.65rem;">
+      @for (batch of product().inventory; track $index) {
+        <li class="mb-1 d-flex justify-content-between" style="min-width: 80px;">
+          <span class="fw-bold text-secondary">{{ batch.quantity }}u</span>
+          <span class="mx-1">→</span>
+          <span [ngClass]="isSoon(batch.expirydate) ? 'text-danger fw-bold' : isExpired(batch.expirydate) ? 'text-danger fw-bold text-decoration-line-through' : 'text-muted'">
+            {{ batch.expirydate | date:'dd MMM' }}
+          </span>
+        </li>
+      }
+    </ul>
+  </div>
+</td>
+ 
+<td class="text-end pe-4">
+  <div class="d-flex flex-column align-items-end">
+    <span class="fw-bold text-dark" style="letter-spacing: -0.5px;">
+      ₹{{ getTotalValue(product().inventory) | number:'1.2-2' }}
+    </span>
+    <span class="text-muted" style="font-size: 0.65rem;">total value</span>
+  </div>
+</td>
+ 
+<td>
+  <span class="badge rounded-pill px-3 py-2 d-inline-flex align-items-center gap-1 border"
+        [ngClass]="{
+          'bg-success-subtle text-success border-success-subtle': getTotalQuantity(product().inventory) > 50,
+          'bg-warning-subtle text-warning border-warning-subtle': getTotalQuantity(product().inventory) <= 50 && getTotalQuantity(product().inventory) > 0,
+          'bg-danger-subtle text-danger border-danger-subtle': getTotalQuantity(product().inventory) === 0
+        }">
+    <i class="bi bi-circle-fill" style="font-size: 6px;"></i>
+    {{ getTotalQuantity(product().inventory) > 0 ? (getTotalQuantity(product().inventory) > 50 ? 'In Stock' : 'Low Stock') : 'Out of Stock' }}
+  </span>
+</td>
+ 
+<td class="text-center">
+  <div class="d-flex justify-content-center gap-1">
+    <button class="btn btn-sm btn-outline-success rounded-pill px-2 fw-bold shadow-none"
+            (click)="onEdit()">
+      <i class="bi bi-pencil-square me-1"></i> Edit
+    </button>
+    <button class="btn btn-sm btn-outline-danger rounded-pill px-2 fw-bold shadow-none"
+            (click)="onDelete()">
+      <i class="bi bi-trash3 me-1"></i> Delete
+    </button>
+  </div>
+</td>
+ 

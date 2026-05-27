@@ -1,0 +1,57 @@
+<div class="card activity-card h-100 border-0 shadow-sm">
+  <div class="card-body p-4 d-flex flex-column">
+    <div class="d-flex justify-content-between align-items-start mb-4">
+      <div>
+        <h5 class="mb-1 fw-medium">Recent Activity</h5>
+        <div class="d-flex align-items-center gap-2">
+          <select
+            class="form-select form-select-sm border-0 bg-light fw-medium text-secondary"
+            [(ngModel)]="selectedDays"
+            (change)="onFilterChange()"
+            style="width: auto; cursor: pointer">
+            <option [value]="1">Last 24 Hours</option>
+            <option [value]="3">Last 3 Days</option>
+            <option [value]="7">Last 7 Days</option>
+          </select>
+        </div>
+      </div>
+      <div class="icon-box">
+        <i class="bi bi-clock-history"></i>
+      </div>
+    </div>
+
+    @if (isLoaded) {
+      <div class="list-container flex-grow-1">
+        <div class="list-group">
+          @if (activityData.data.length > 0) {
+            @for (activity of activityData.data; track activity.id) {
+              <div class="list-group-item px-0 py-3 border-0">
+                <div class="d-flex flex-column px-1">
+                  <div class="d-flex justify-content-between align-items-center mb-1">
+                    <span class="fw-medium text-dark text-uppercase"
+                          style="letter-spacing: 0.5px; font-size: 0.75rem">
+                      {{ activity.eventname }}
+                    </span>
+                    <span class="text-muted extra-small">
+                      {{ activity.timestamp | date: 'dd/MM/yyyy hh:mm a' }}
+                    </span>
+                  </div>
+                  <p class="mb-1 text-secondary small">{{ activity.eventdesc }}</p>
+                </div>
+              </div>
+            }
+          } @else {
+            <div class="text-center py-5 text-muted small">
+              No items found.
+            </div>
+          }
+        </div>
+      </div>
+    } @else {
+      <div class="flex-grow-1 d-flex flex-column align-items-center justify-content-center text-muted py-5">
+        <i class="bi bi-inbox fs-1 mb-2 opacity-25"></i>
+        <span class="fw-medium small">No data available</span>
+      </div>
+    }
+  </div>
+</div>

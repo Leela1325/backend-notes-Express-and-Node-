@@ -1,0 +1,54 @@
+.sales-card {
+  border-radius: 16px;
+  background: #ffffff;
+ 
+  
+
+  .icon-box {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background-color: rgba(220, 53, 69, 0.1);
+    color: #dc3545;
+    font-size: 1.3rem;
+  }
+
+ 
+
+  .border-end {
+    border-right: 1px solid #f0f0f0 !important;
+  }
+
+  .border-top {
+    border-top: 1px solid #f8f9fa !important;
+  }
+
+  .status-indicator {
+    font-size: 0.7rem;
+    color: #6c757d;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+
+    .dot {
+      height: 6px;
+      width: 6px;
+      background-color: #198754; // Green for "Live"
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 6px;
+    }
+  }
+  .extra-small {
+    font-size: 0.75rem;
+  }
+  .smaller{
+    font-size: 10px;
+  }
+
+  
+}

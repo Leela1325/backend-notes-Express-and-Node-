@@ -1,0 +1,24 @@
+.category-card-hover {
+ 
+   
+  transition: all 0.3s ease;
+  border: 2px solid transparent !important;
+  cursor: pointer;
+
+  &:hover {
+    transform: translateY(-8px);
+    
+    
+    border-color: #198754 !important; 
+    box-shadow: 0 12px 24px rgba(25, 135, 84, 0.15) !important;
+
+    .bi-tag-fill {
+      color: #198754 !important;
+      transition: color 0.3s ease;
+    }
+    .name{
+        color: #198754 !important;
+    }
+  }
+}
+

@@ -1,0 +1,68 @@
+<div
+  class="card h-100 shadow-sm p-4 border-2 zone-card-hover"
+  (click)="onZoneClick()"
+  style="border-radius: 16px; background-color: #ffffff; cursor: pointer"
+>
+  <div class="d-flex justify-content-between align-items-start mb-4 gap-2">
+    <div class="title-area flex-grow-1 overflow-hidden">
+      <h3
+        class="h5 fw-bold mb-2 title-text text-truncate"
+        [title]="zoneData().name"
+      >
+        {{ zoneData().name }}
+      </h3>
+
+      <span
+        class="badge rounded-pill px-3 py-2 fw-semibold"
+        [ngClass]="{
+          'bg-success-subtle text-success': zoneData().status === 'Available',
+          'bg-warning-subtle text-warning': zoneData().status === 'Nearly Full',
+          'bg-danger-subtle text-danger':   zoneData().status === 'Full'
+        }"
+        style="font-size: 0.75rem; white-space: nowrap"
+      >
+        <i
+          class="bi me-1"
+          [ngClass]="{
+            'bi-check2':               zoneData().status === 'Available',
+            'bi-exclamation-triangle': zoneData().status === 'Nearly Full',
+            'bi-x-circle':             zoneData().status === 'Full'
+          }"
+        ></i>
+        {{ zoneData().status }}
+      </span>
+    </div>
+
+    <div class="icon-box opacity-50 flex-shrink-0">
+      <i class="bi bi-buildings-fill fs-3 transition-icon"></i>
+    </div>
+  </div>
+
+  <div class="stats-area pt-3 mb-3 border-top border-light-subtle">
+    <div class="d-flex justify-content-between mb-2">
+      <span class="text-secondary small">Categories</span>
+      <span class="fw-bold text-dark">{{ zoneData().categoryCount }}</span>
+    </div>
+    <div class="d-flex justify-content-between">
+      <span class="text-secondary small">Products</span>
+      <span class="fw-bold text-dark">{{ zoneData().productCount }}</span>
+    </div>
+  </div>
+
+  <div class="capacity-footer pt-2 mt-auto border-top border-light-subtle">
+    <div class="row g-0 text-center">
+      <div class="col-4 border-end">
+        <div class="text-secondary cap-label" style="font-size: 0.7rem; text-transform: uppercase">Max</div>
+        <div class="fw-bold small">{{ zoneData().maxcapacity }}</div>
+      </div>
+      <div class="col-4 border-end">
+        <div class="text-secondary cap-label" style="font-size: 0.7rem; text-transform: uppercase">Used</div>
+        <div class="fw-bold small text-primary">{{ zoneData().currentcapacity }}</div>
+      </div>
+      <div class="col-4">
+        <div class="text-secondary cap-label" style="font-size: 0.7rem; text-transform: uppercase">Free</div>
+        <div class="fw-bold small text-success">{{ zoneData().availablecapacity }}</div>
+      </div>
+    </div>
+  </div>
+</div>

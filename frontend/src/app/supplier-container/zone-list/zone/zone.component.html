@@ -1,0 +1,51 @@
+
+<div class="card h-100 shadow-sm p-4 border-2 zone-card-hover d-flex flex-column" 
+     (click)="navigateUser()" 
+     style="border-radius: 16px; background-color: #ffffff; cursor: pointer;">
+  
+  <div class="title-area mb-4">
+    <div class="d-flex justify-content-between align-items-start gap-3">
+      <div class="flex-grow-1 overflow-hidden">
+        <h5 class="fw-bold mb-2 text-truncate" style="color: #1F2937;" [title]="name()">
+          {{ name() }}
+        </h5>
+      </div>
+      
+      <div class="text-primary opacity-50 flex-shrink-0">
+        <i class="bi bi-geo-alt-fill fs-3"></i>
+      </div>
+    </div>
+    
+    <span class="badge rounded-pill px-3 py-2 bg-success-subtle text-success fw-semibold" style="font-size: 0.75rem; white-space: nowrap;">
+      <i class="bi bi-check2"></i> Available
+    </span>
+  </div>
+
+  <div class="pt-3 border-top border-light-subtle">
+    <div class="d-flex justify-content-between mb-2 gap-2">
+      <span class="text-secondary small">Categories</span>
+      <span class="fw-bold">{{ categories().length }}</span>
+    </div>
+    <div class="d-flex justify-content-between mb-4 gap-2">
+      <span class="text-secondary small">Suppliers</span>
+      <span class="fw-bold">{{ suppliers().length }}</span>
+    </div>
+  </div>
+
+  <div class="capacity-footer mt-auto pt-3 border-top border-light-subtle">
+    <div class="row g-0 text-center">
+      <div class="col-4 border-end">
+        <div class="text-secondary" style="font-size: 0.65rem; letter-spacing: 0.5px;">MAX</div>
+        <div class="fw-bold">{{ zoneObject().maxcapacity }}</div>
+      </div>
+      <div class="col-4 border-end">
+        <div class="text-secondary" style="font-size: 0.65rem; letter-spacing: 0.5px;">USED</div>
+        <div class="fw-bold text-primary">{{ zoneObject().currentcapacity }}</div>
+      </div>
+      <div class="col-4">
+        <div class="text-secondary" style="font-size: 0.65rem; letter-spacing: 0.5px;">FREE</div>
+        <div class="fw-bold text-success">{{ zoneObject().availablecapacity }}</div>
+      </div>
+    </div>
+  </div>
+</div>

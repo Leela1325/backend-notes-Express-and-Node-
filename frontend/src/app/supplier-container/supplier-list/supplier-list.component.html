@@ -1,0 +1,73 @@
+<div class="container-fluid px-4 pt-3 pb-3" [class.blurred]="showPopup">
+
+  <header class="supplier-header mb-4 d-flex flex-wrap align-items-center justify-content-between">
+    <div class="mb-2 mb-md-0">
+      <div class="d-flex align-items-center gap-2 mb-1">
+        <span class="text-secondary xx-small text-uppercase fw-bold">Zones</span>
+        <i class="bi bi-chevron-right text-muted xxx-small"></i>
+        <span class="text-secondary xx-small text-uppercase fw-bold">Categories</span>
+        <i class="bi bi-chevron-right text-muted xxx-small"></i>
+        <span class="text-dark fw-bold xx-small text-uppercase">Suppliers</span>
+      </div>
+      <h6 class="fw-bold m-0 text-dark">
+        {{ zonedata?.name }} <span class="text-success">Suppliers List</span>
+      </h6>
+    </div>
+
+    <div class="d-flex flex-column flex-md-row align-items-stretch gap-2 w-100 w-md-auto" style="max-width: 500px;">
+      
+    
+      <button
+        class="btn btn-outline-primary btn-sm rounded-pill px-3 py-2 d-flex align-items-center gap-2 shadow-sm border mt-2 mt-md-0"
+        style="font-size: 0.75rem;"
+        (click)="navigateToAnalytics()">
+        <i class="bi bi-bar-chart-line fw-bold"></i>
+        <span class="fw-bold">View Analytics</span>
+      </button>
+
+     
+      <div class="d-flex align-items-center gap-3 position-relative flex-grow-1">
+        <i class="bi bi-search position-absolute ms-3 text-secondary" style="z-index:1; font-size:0.75rem"></i>
+        <input
+          type="text"
+          class="form-control ps-5 rounded-pill"
+          placeholder="Search product..."
+          style="font-size:0.75rem; height:34px;"
+          [(ngModel)]="searchvalue"
+          (ngModelChange)="searchFunction()">
+      </div>
+
+      <button
+        class="btn btn-success btn-sm rounded-pill px-3 py-2 d-flex align-items-center gap-2 shadow-sm border-0 mt-2 mt-md-0"
+        style="font-size: 0.75rem; background-color: #198754;"
+        (click)="showPopup = true">
+        <i class="bi bi-plus-lg fw-bold"></i>
+        <span class="fw-bold">New Supplier</span>
+      </button>
+    </div>
+    <div class="header-line mt-3 w-100"></div>
+  </header>
+
+  <div *ngIf="supplierArray().length === 0" class="text-center text-muted py-5">
+    <i class="bi bi-search fs-3 d-block mb-2"></i>
+    <p class="small">No suppliers found </p>
+  </div>
+
+  <div class="row g-2">
+    @for (item of supplierArray(); track item.id) {
+      <div class="col-12 mb-2">
+        <app-supplier
+          [supplierdata]="item"
+          (delete)="DeleteSupplier($event)">
+        </app-supplier>
+      </div>
+    }
+  </div>
+</div>
+
+<app-newsupplier
+  *ngIf="showPopup"
+  [supplierlist]="supplierArray()"
+  (close)="showPopup = false"
+  (add)="onSupplierAdded($event)">
+</app-newsupplier>

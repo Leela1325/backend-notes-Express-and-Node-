@@ -1,0 +1,29 @@
+.zone-card-hover {
+  transition: all 0.3s ease;
+  border: 2px solid transparent !important; 
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+
+  &:hover {
+    transform: translateY(-8px);
+    border-color: #198754 !important; 
+    box-shadow: 0 15px 30px rgba(25, 135, 84, 0.12) !important;
+
+    .bi-geo-alt-fill {
+      transform: scale(1.15);
+      transition: transform 0.2s ease;
+      color: #198754 !important;
+    }
+
+    .title-area h5 {
+      color: #198754 !important;
+      transition: color 0.2s ease;
+    }
+  }
+}
+.capacity-footer {
+  .col-4 {
+    padding: 5px 0;
+  }
+}

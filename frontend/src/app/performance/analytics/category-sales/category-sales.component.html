@@ -1,0 +1,55 @@
+<div class="h-100">
+  <div class="card-body">
+    <div class="d-flex align-items-start justify-content-between mb-3 flex-wrap gap-2">
+      <div>
+        <h6 class="fw-bold text-dark mb-1">Category Sales</h6>
+        <small class="text-muted fw-medium">Trend over last {{ selectedDays }} days</small>
+      </div>
+
+      <div class="d-inline-flex bg-body-secondary rounded-3 p-1 gap-1" role="group">
+        @for (d of [7, 14, 30]; track d) {
+          <button
+            type="button"
+            class="btn btn-sm border-0 rounded-2 range-btn"
+            [class.bg-white]="selectedDays === d"
+            [class.text-primary]="selectedDays === d"
+            [class.fw-bold]="selectedDays === d"
+            [class.shadow-sm]="selectedDays === d"
+            [class.text-muted]="selectedDays !== d"
+            (click)="changeRange(d)"
+          >
+            {{ d }}D
+          </button>
+        }
+      </div>
+    </div>
+    <div class="chart-wrapper position-relative">
+      @if (series.length) {
+        <apx-chart #categorychart
+          [series]="series"
+          [chart]="chart"
+          [xaxis]="xaxis"
+          [yaxis]="yaxis"
+          [stroke]="stroke"
+          [dataLabels]="dataLabels"
+          [legend]="legend"
+          [tooltip]="tooltip"
+          [grid]="grid"
+          [markers]="markers"
+        ></apx-chart>
+      } @else if (!isLoading) {
+        <div class="d-flex flex-column align-items-center justify-content-center text-muted py-5">
+          <i class="bi bi-graph-up fs-1 mb-2 opacity-25"></i>
+          <span class="fw-medium small">No data available</span>
+        </div>
+      }
+      @if (isLoading) {
+        <div class="skeleton-chart">
+          <div class="skeleton-line" style="height: 60%; width: 100%;"></div>
+          <div class="skeleton-line" style="height: 40%; width: 100%;"></div>
+          <div class="skeleton-axis"></div>
+        </div>
+      }
+    </div>
+  </div>
+</div>

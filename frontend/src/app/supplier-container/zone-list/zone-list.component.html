@@ -1,0 +1,56 @@
+<div class="container-fluid px-4 pt-5 pb-3">
+  <header class="dashboard-header mb-5">
+    <div class="d-flex align-items-center gap-3 mb-2">
+      <div class="header-icon-box shadow-sm">
+        <i class="bi bi-stack fs-4 text-white"></i>
+      </div>
+      <div>
+        <p class=" fw-bold small m-0 text-uppercase spacing">
+          Zone Overview & Resource Allocation
+        </p>
+        <div class="d-block">
+          <span class="h6">
+            Managing
+            <span class="text-success fw-bold">{{ zoneArray().length }}</span>
+
+            Zones in the Warehouse
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="header-line"></div>
+  </header>
+
+  <div class="row g-4">
+    @if (zoneArray().length > 0) {
+      @for (u of zoneArray(); track u.id) {
+        <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+          <app-zone
+            [name]="u.name"
+            [zoneid]="u.id"
+            [zoneObject]="u"
+            [categories]="u.categories ?? []"
+            [suppliers]="u.suppliers ?? []"
+          ></app-zone>
+        </div>
+      }
+    } @else {
+      <div class="col-12 text-center py-5">
+        <div
+          class="d-flex flex-column align-items-center justify-content-center"
+        >
+          <div
+            class="bg-light rounded-circle p-4 mb-3 d-flex align-items-center justify-content-center"
+            style="width: 100px; height: 100px"
+          >
+            <i class="bi bi-building-exclamation text-muted display-4"></i>
+          </div>
+          <h4 class="fw-bold text-dark">No Available Zones</h4>
+          <p class="text-muted">
+            It looks like there are no warehouse zones configured yet.
+          </p>
+        </div>
+      </div>
+    }
+  </div>
+</div>

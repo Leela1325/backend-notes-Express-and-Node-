@@ -1,0 +1,34 @@
+.dashboard-header {
+  .header-icon-box {
+    background: linear-gradient(135deg, #1f15a3 0%, #3b82f6 100%);
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+  }
+
+  h1 {
+    font-size: 1.75rem;
+    letter-spacing: -0.02em; 
+    color: #111827; 
+  }
+
+  .spacing {
+    letter-spacing: 0.1em;
+    font-weight: 500;
+    opacity: 0.8;
+  }
+
+  .header-line {
+    width: 60px;
+    height: 4px;
+    background: #1f15a3;
+    margin-top: 1.5rem;
+    border-radius: 2px;
+    opacity: 0.3;
+  }
+}
+
+

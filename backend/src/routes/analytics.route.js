@@ -1,0 +1,12 @@
+import express from 'express';
+import { CategoryPerformers, getDailySalesByCategory, getDailySalesByProduct, getProductOverview, getDailyCategorySales, getProductPerformance } from '../controllers/sales.controller.js';
+import authorize from '../middlewares/authorization.middleware.js';
+export const router = express.Router();
+router.use(authorize("admin"));
+router.get('/categories/weekly-sales', getDailyCategorySales);
+router.get('/categories/:categoryid/top-products', CategoryPerformers);
+router.get('/categories/:categoryid/daily-sales', getDailySalesByCategory);
+router.get('/products/:productid/daily-sales', getDailySalesByProduct);
+router.get('/products/:productid/overview', getProductOverview);
+router.get('/products/:productid/performance', getProductPerformance);
+export default router;

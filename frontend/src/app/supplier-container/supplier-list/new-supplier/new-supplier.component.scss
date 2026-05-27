@@ -1,0 +1,86 @@
+
+
+.form-label-custom {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #64748b;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+
+.custom-input {
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 0.6rem 0.8rem;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+  background-color: #f8fafc;
+
+  &:focus {
+    background-color: #fff;
+    border-color: #198754;
+    box-shadow: 0 0 0 4px rgba(25, 135, 84, 0.1);
+    outline: none;
+  }
+}
+
+
+
+.btn-success {
+  background-color: #198754;
+  border: none;
+  &:hover {
+    background-color: #157347;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(25, 135, 84, 0.2);
+  }
+}
+
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;  
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+  z-index: 9998; 
+}
+.popup-modal {
+position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+
+
+  background-color: #ffffff !important; 
+  
+  border-radius: 16px;
+  padding: 24px;
+  width: 520px;
+  max-width: 95vw;
+  max-height: 90vh;
+  overflow-y: auto;
+  
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+
+  animation: popIn 0.2s ease-out;
+}
+@keyframes popIn {
+  from { opacity: 0; transform: translate(-50%, -48%) scale(0.97); }
+  to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+.val-error {
+  font-size: 0.68rem;
+  font-weight: bold;
+  color: #dc3545;
+  margin-top: 3px;
+}
+
+
+
+

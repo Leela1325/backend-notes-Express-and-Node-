@@ -1,0 +1,32 @@
+.zone-card {
+  border-radius: 16px;
+  background: #ffffff;
+
+  .icon-box {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background-color: rgba(102, 16, 242, 0.1); // Light purple tint
+    color: #6610f2; // Indigo/Purple color for zones
+    font-size: 1.3rem;
+  }
+
+  .progress {
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .progress-bar {
+    transition: width 0.6s ease;
+  }
+
+ 
+
+  .text-secondary {
+    font-size: 0.8rem;
+  }
+}

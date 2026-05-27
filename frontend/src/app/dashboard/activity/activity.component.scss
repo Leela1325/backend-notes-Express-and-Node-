@@ -1,0 +1,56 @@
+.activity-card {
+  border-radius: 16px;
+  background: #ffffff;
+  min-height: 420px;
+
+  .icon-box {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background-color: rgba(25, 135, 84, 0.1); 
+    color: #198754; // Success Green
+    font-size: 1.2rem;
+  }
+
+  .form-select-sm {
+    font-size: 0.75rem;
+    padding: 2px 25px 2px 8px;
+    border-radius: 6px;
+    &:focus {
+      box-shadow: none;
+      background-color: #e9ecef;
+    }
+  }
+
+  .list-container {
+    max-height: 320px;
+    overflow-y: auto;
+    padding-right: 8px;
+
+    &::-webkit-scrollbar {
+      width: 4px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: #f1f1f1;
+      border-radius: 10px;
+    }
+   
+  }
+
+  .list-group-item {
+    &:last-child {
+      border-bottom: none !important;
+    }
+      &:hover {
+      background-color: #f6f7f8;
+    }
+  }
+
+  .extra-small {
+    font-size: 0.7rem;
+  }
+ 
+}

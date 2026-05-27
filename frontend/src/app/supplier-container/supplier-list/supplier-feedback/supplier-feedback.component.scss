@@ -1,0 +1,47 @@
+.feedback-container {
+  background: #ffffff;
+  border-radius: 20px;
+}
+
+.metric-card {
+  padding: 15px;
+  background: #f8fafc;
+  border-radius: 12px;
+  border: 1px solid #f1f5f9;
+  transition: all 0.2s;
+
+  &:hover {
+    border-color: #cbd5e1;
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+  }
+}
+
+.highlight-metric {
+  background: rgba(25, 135, 84, 0.03);
+  border: 1px dashed #198754;
+}
+
+.metric-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.bg-success-light-custom {
+  background-color: rgba(25, 135, 84, 0.1);
+}
+
+
+
+
+.btn-success {
+  background: #198754;
+  border: none;
+  &:hover {
+    background: #157347;
+    transform: translateY(-1px);
+  }
+}

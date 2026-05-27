@@ -1,0 +1,65 @@
+<div class="card expiring-card h-100 border-0 shadow-sm">
+  <div class="card-body p-4 d-flex flex-column">
+    <div class="d-flex justify-content-between align-items-start mb-4">
+      <div>
+        <h5 class="mb-1 fw-medium">Expiring Products</h5>
+        <div class="d-flex align-items-center gap-2">
+          @if (expiringData) {
+            <span class="badge rounded-pill bg-danger px-2">{{ expiringData.count }}</span>
+          }
+          <select
+            class="form-select form-select-sm border-0 bg-light fw-medium text-secondary"
+            [(ngModel)]="selectedRange"
+            (change)="onRangeChange()"
+            style="width: auto; cursor: pointer">
+            <option [value]="7">Next 7 Days</option>
+            <option [value]="15">Next 15 Days</option>
+            <option [value]="30">Next 30 Days</option>
+          </select>
+        </div>
+      </div>
+      <div class="icon-box">
+        <i class="bi bi-exclamation-triangle"></i>
+      </div>
+    </div>
+
+    @if (expiringData) {
+      <div class="list-container flex-grow-1">
+        <div class="list-group">
+          @if (expiringData.expiringItems.length > 0) {
+            @for (product of expiringData.expiringItems; track product.id) {
+              <div class="list-group-item px-0 py-3 border-0">
+                <div class="d-flex justify-content-between align-items-center px-1">
+                  <div class="d-flex flex-column">
+                    <span class="fw-medium text-dark mb-1 small">{{ product.name }}</span>
+                    <span class="text-muted extra-small">
+                      Expires on:
+                      <span class="text-danger fw-medium">
+                        {{ product.expirydate | date: 'dd/MM/yyyy' }}
+                      </span>
+                    </span>
+                  </div>
+                  <div class="text-end">
+                    <div class="extra-small text-muted">ID: {{ product.id.slice(-6) }}</div>
+                    <div class="text-secondary extra-small fw-medium">
+                      {{ product.quantity }} Units
+                    </div>
+                  </div>
+                </div>
+              </div>
+            }
+          } @else {
+            <div class="text-center py-5 text-muted small">
+              No items found.
+            </div>
+          }
+        </div>
+      </div>
+    } @else {
+      <div class="flex-grow-1 d-flex flex-column align-items-center justify-content-center text-muted py-5">
+        <i class="bi bi-inbox fs-1 mb-2 opacity-25"></i>
+        <span class="fw-medium small">No data available</span>
+      </div>
+    }
+  </div>
+</div>

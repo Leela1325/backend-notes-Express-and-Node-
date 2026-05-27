@@ -1,0 +1,11 @@
+.zone-card-hover {
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  border: 2px solid transparent !important;
+
+  &:hover {
+    transform: translateY(-6px);
+    /* Changed from Blue to Green to match your request */
+    border-color: #198754 !important; // Bootstrap Success Green
+    box-shadow: 0 12px 24px rgba(25, 135, 84, 0.15) !important;
+  }
+}

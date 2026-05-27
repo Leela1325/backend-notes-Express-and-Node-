@@ -1,0 +1,331 @@
+<header class="bg-white px-4 py-3 border-bottom shadow-sm position-relative">
+  <div class="mx-auto" style="max-width: 1600px;">
+    <nav class="mb-1">
+      <span class="text-success fw-bold text-uppercase" style="font-size: 0.75rem;">
+        Inventory System
+      </span>
+    </nav>
+    <div class="d-flex align-items-center justify-content-between">
+      <div class="d-flex align-items-center gap-3">
+        <div class="bg-success bg-opacity-10 rounded-3 p-2 text-success d-flex align-items-center justify-content-center shadow-sm"
+             style="width: 42px; height: 42px;">
+          <i class="bi bi-ticket-perforated fs-5"></i>
+        </div>
+        <div>
+          <h3 class="fw-bold text-dark mb-0 fs-5">Ticket Management</h3>
+          <span class="text-muted small">Support Requests & Issues</span>
+        </div>
+      </div>
+
+      <div class="d-flex align-items-center gap-3">
+        <div class="position-relative me-2">
+          <i class="bi bi-bell fs-5 text-secondary"></i>
+          <span *ngIf="pendingTickets.length > 0"
+                class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-white rounded-circle">
+          </span>
+        </div>
+
+        <div class="vr mx-2 text-muted opacity-25" style="height: 20px;"></div>
+
+        <span class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle px-3 py-2 fw-semibold"
+              style="font-family: 'Montserrat', sans-serif">
+          {{ pendingTickets.length }} Pending Ticket
+        </span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="mb-5 container-fluid py-4 px-4 bg-light">
+  <div class="mx-auto" style="max-width: 1600px; font-family: 'Montserrat', sans-serif">
+    
+    <div class="card border-0 shadow-sm rounded-4 mb-5 overflow-hidden">
+      <div class="card-header bg-white border-0 pt-4 px-4 pb-0">
+        <h5 class="fw-bold fs-4 mb-0" style="font-family: 'Montserrat', sans-serif">
+          <i class="bi bi-clock-history text-warning me-2"></i>Pending Tickets
+        </h5>
+      </div>
+      
+      <div class="card-body px-0 pb-0">
+        <div class="table-responsive all-tickets-scroll">
+          <table class="table table-hover align-middle mb-0 text-center">
+            <thead class="table-light text-secondary small text-uppercase fw-bold">
+              <tr>
+                <!-- <th class="ps-4 py-3">Ticket ID</th> -->
+                <th class="py-3 ">Product</th>
+                <th class="py-3">Quantity</th>
+                <th class="py-3 ">Supplier</th>
+                <th class="py-3">CreatedAt</th>
+                <th class="py-3">Status</th>
+                <th class="pe-4 py-3">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngIf="pendingTickets.length > 0; else noPendingTickets">
+                <tr *ngFor="let i of pendingTickets" class="border-bottom">
+<!-- 
+                  <td class="ps-4 text-muted small align-middle">
+                    #{{ i.id }}
+                  </td>-->
+
+                  <td class="text-start fw-bold text-dark align-middle">
+                    {{ i.productName }}
+                  </td> 
+
+                  <td class="align-middle">
+                    <div class="d-inline-flex align-items-center justify-content-center">
+                      <ng-container *ngIf="!$any(i).isEditing; else editQty">
+                        <span class="me-2 fw-bold text-success">
+                          {{ i.requestedQuantity }}
+                        </span>
+                        <button class="btn btn-sm btn-success-subtle rounded-circle"
+                                style="width:32px;height:32px"
+                                (click)="$any(i).isEditing = true">
+                          <i class="bi bi-pencil-square"></i>
+                        </button>
+                      </ng-container>
+
+                      <ng-template #editQty>
+                        <div class="input-group input-group-sm" style="max-width:140px">
+                          <input type="number"
+                                 class="form-control"
+                                 [(ngModel)]="i.requestedQuantity">
+                          <button class="btn btn-success" (click)="saveQuantity(i)">
+                            <i class="bi bi-check-lg"></i>
+                          </button>
+                        </div>
+                      </ng-template>
+                    </div>
+                  </td>
+
+                  <td class="text-start align-middle" style="min-width:180px">
+                    <select class="form-select form-select-sm"
+                            [(ngModel)]="i.supplierId"
+                            (change)="onSupplierChange(i)">
+                      <!-- <option value="" disabled>Select Supplier</option> -->
+                      <option *ngFor="let s of getSuppliersForTicket(i)"
+                              [value]="s.id">
+                        {{ s.name }}
+                      </option>
+                    </select>
+                  </td>
+
+                  <td class="align-middle">
+  <div class="fw-bold small">
+    {{ i.createdAt | date:'shortDate' }}
+  </div>
+  <div class="text-muted smaller">
+    {{ i.createdAt | date:'shortTime' }}
+  </div>
+</td>
+
+                  <td class="align-middle">
+                    <span class="badge rounded-pill bg-warning-subtle text-warning border">
+                      {{ i.status }}
+                    </span>
+                  </td>
+
+                  <td class="align-middle pe-4">
+                    <div class="d-inline-flex gap-2 justify-content-center">
+                      <button class="btn btn-sm rounded-pill px-3 fw-bold action-btn approve-btn"
+                              (click)="confirmApprove(i)">
+                        <i class="bi bi-check-lg me-1"></i>Approve
+                      </button>
+
+                      <button class="btn btn-sm rounded-pill px-3 fw-bold action-btn reject-btn"
+                              (click)="confirmDisapprove(i)">
+                        <i class="bi bi-x-lg me-1"></i>Disapprove
+                      </button>
+                    </div>
+                  </td>
+
+                </tr>
+              </ng-container>
+
+              <ng-template #noPendingTickets>
+                <tr>
+                  <td colspan="7" class="text-center py-5">
+                    <i class="bi bi-clipboard-check-fill text-success fs-1 mb-3"></i>
+                    <h5 class="fw-bold text-success">No Pending Tickets</h5>
+                    <p class="text-muted mb-0">
+                      There are no tickets waiting for approval.
+                    </p>
+                  </td>
+                </tr>
+              </ng-template>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="my-4">
+      
+      <hr class="border-secondary opacity-25">
+    </div>
+
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+      <div class="card-header bg-white border-0 p-4 d-flex align-items-center justify-content-between">
+        <h5 class="fw-bold fs-4 mb-0" style="font-family: 'Montserrat', sans-serif">
+          All Tickets
+        </h5>
+
+        <div class="d-flex align-items-center bg-light rounded-pill px-3 shadow-sm">
+          <i class="bi bi-filter text-success me-2"></i>
+          <select class="form-select form-select-sm border-0 bg-transparent py-2"
+        style="cursor: pointer"
+        [(ngModel)]="selectedFilter"
+        (change)="applyFilter()">
+  <option value="APPROVED">Approved</option>
+  <option value="PENDING">Pending</option>
+  <option value="REJECTED">Rejected</option>
+</select>
+        </div>
+      </div>
+      
+      <div class="card-body px-0 pb-0">
+        <div class="table-responsive tickets-scroll">
+          <table class="table table-hover align-middle mb-0 text-center">
+            <thead class="table-light text-secondary small text-uppercase fw-bold">
+              <tr>
+                <!-- <th class="ps-4 py-3">ID</th> -->
+                <th class="py-3">Product Name</th>
+                <th class="py-3">Qty</th>
+                <th class="py-3">Supplier</th>
+                <th class="pe-4 py-3 text-center">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let i of filteredTickets" class="border-bottom">
+                <!-- <td class="ps-4 text-muted small">#{{ i.id }}</td> -->
+                <td class="fw-semibold text-dark">{{ i.productName }}</td>
+                <td class="fw-bold">{{ i.requestedQuantity }}</td>
+                <td class="text-secondary fw-semibold">
+  {{ getDisplaySupplierForTicket(i)?.name || '-' }}
+</td >
+
+                <!-- tbody -->
+<td class="py-3 text-center">
+  <span class="badge rounded-pill"
+        [ngClass]="{
+          'bg-success-subtle text-success border border-success-subtle': i.status === 'APPROVED',
+          'bg-warning-subtle text-warning border border-warning-subtle': i.status === 'PENDING',
+          'bg-danger-subtle text-danger border border-danger-subtle': i.status === 'REJECTED'
+        }">
+    {{ i.status }}
+  </span>
+</td>
+              </tr>
+<tr *ngIf="filteredTickets.length === 0 && selectedFilter === 'PENDING'">
+  <td colspan="6">
+    <div class="text-center py-5">
+      <i class="bi bi-clock-history text-warning fs-1 mb-3"></i>
+      <h5 class="fw-bold text-warning">No Pending Tickets</h5>
+      <p class="text-muted mb-0">
+        There are no pending tickets at the moment.
+      </p>
+    </div>
+  </td>
+</tr>
+
+<tr *ngIf="filteredTickets.length === 0 && selectedFilter === 'APPROVED'">
+  <td colspan="6">
+    <div class="text-center py-5">
+      <i class="bi bi-check-circle-fill text-success fs-1 mb-3"></i>
+      <h5 class="fw-bold text-success">No Approved Tickets</h5>
+      <p class="text-muted mb-0">
+        No tickets have been approved yet.
+      </p>
+    </div>
+  </td>
+</tr>
+
+<tr *ngIf="filteredTickets.length === 0 && selectedFilter === 'REJECTED'">
+  <td colspan="6">
+    <div class="text-center py-5">
+      <i class="bi bi-x-circle-fill text-danger fs-1 mb-3"></i>
+      <h5 class="fw-bold text-danger">No Rejected Tickets</h5>
+      <p class="text-muted mb-0">
+        No tickets have been rejected.
+      </p>
+    </div>
+  </td>
+</tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Expiry Date Modal -->
+<div class="modal fade show"
+     *ngIf="showExpiryModal"
+     style="display: block; background: rgba(0,0,0,0.5);"
+     tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content rounded-4 border-0 shadow-lg">
+
+      <div class="modal-header bg-success bg-opacity-10 border-0">
+        <h5 class="modal-title fw-bold text-success">
+          <i class="bi bi-calendar-event me-2"></i>
+          Set Product Expiry Date
+        </h5>
+        <button type="button" class="btn-close" (click)="closeExpiryModal()"></button>
+      </div>
+
+      <div class="modal-body p-4">
+        <div class="mb-3">
+          <label class="form-label fw-bold">Product Name</label>
+          <input type="text"
+                 class="form-control bg-light"
+                 [value]="ticketToApprove?.productName"
+                 readonly>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-bold">Quantity</label>
+          <input type="text"
+                 class="form-control bg-light"
+                 [value]="ticketToApprove?.requestedQuantity"
+                 readonly>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-bold">Expiry Date</label>
+          <input type="date"
+                 class="form-control"
+                 [(ngModel)]="expiryDate"
+                 [min]="todayDate"
+                 required>
+          <small class="text-muted">Select a future date</small>
+        </div>
+        <div class="mb-3">
+  <label class="form-label fw-bold">Price</label>
+  <input type="number"
+         class="form-control"
+         [(ngModel)]="price"
+         min="0"
+         step="0.01"
+         placeholder="Enter price per unit"
+         required>
+  <small class="text-muted">Price per unit</small>
+</div>
+      </div>
+
+      <div class="modal-footer border-0">
+        <button type="button" class="btn btn-secondary rounded-pill px-4"
+                (click)="closeExpiryModal()">
+          Cancel
+        </button>
+        <button type="button" class="btn btn-success rounded-pill px-4 fw-bold"
+        (click)="submitExpiryAndApprove()"
+        [disabled]="!expiryDate || !price || price <= 0">
+  <i class="bi bi-check-lg me-1"></i>Submit & Approve
+</button>
+      </div>
+
+    </div>
+  </div>
+</div>

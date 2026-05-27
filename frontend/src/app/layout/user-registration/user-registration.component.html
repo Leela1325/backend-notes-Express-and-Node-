@@ -1,0 +1,123 @@
+<div class="register-user-page">
+
+  <!-- Header (matches dashboard format) -->
+  <header class="bg-white px-4 py-3 border-bottom shadow-sm position-relative">
+    <div class="mx-auto">
+      <nav class="mb-1">
+        <span
+          class="text-success fw-bold text-uppercase"
+          style="font-size: 0.75rem"
+        >
+          Staff Management
+        </span>
+      </nav>
+      <div class="d-flex align-items-center justify-content-between">
+        <div class="d-flex align-items-center gap-3">
+          <div
+            class="bg-success bg-opacity-10 rounded-3 p-2 text-success d-flex align-items-center justify-content-center shadow-sm"
+            style="width: 42px; height: 42px"
+          >
+            <i class="bi bi-person-plus-fill fs-5"></i>
+          </div>
+          <div>
+            <h3 class="fw-bold text-dark mb-0 fs-5">Register user</h3>
+            <span class="text-muted small">Send a verification token to onboard new staff</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Form section: fills remaining vertical space, centers the card -->
+  <div class="form-section">
+
+    <!-- Form card -->
+    <div class="card form-card">
+      <div class="card-body">
+        <form [formGroup]="registerForm" (ngSubmit)="sendToken()" novalidate>
+          <label for="email" class="form-label fw-medium">Staff email</label>
+          <p class="form-hint">A verification token will be sent to this email.</p>
+
+          <div class="input-group staff-input-group mb-2">
+            <span class="input-group-text bg-white">
+              <i class="bi bi-envelope text-secondary"></i>
+            </span>
+            <input
+              id="email"
+              type="email"
+              class="form-control"
+              placeholder="staff@email.com"
+              formControlName="email"
+              autocomplete="email"
+            />
+          </div>
+
+          <!-- Validation error slot (reserved height, no jump) -->
+          <div class="validation-slot mb-3">
+            @if (email.touched && email.invalid) {
+              <small class="text-danger">
+                @if (email.errors?.['required']) {
+                  Email is required.
+                } @else if (email.errors?.['email']) {
+                  Please enter a valid email address.
+                }
+              </small>
+            }
+          </div>
+
+          <!-- Action buttons -->
+          <div class="btn-row d-flex gap-2">
+            <button
+              type="submit"
+              class="btn btn-success flex-fill"
+              [disabled]="isSending() || isResending()"
+            >
+              @if (isSending()) {
+                <span class="spinner-border spinner-border-sm me-2"></span>
+                Sending...
+              } @else {
+                <i class="bi bi-send me-2"></i>
+                Send verification token
+              }
+            </button>
+
+            <button
+              type="button"
+              class="btn btn-outline-secondary flex-fill"
+              (click)="resendToken()"
+              [disabled]="isSending() || isResending()"
+            >
+              @if (isResending()) {
+                <span class="spinner-border spinner-border-sm me-2"></span>
+                Resending...
+              } @else {
+                <i class="bi bi-arrow-clockwise me-2"></i>
+                Resend token
+              }
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Status alert slot: ALWAYS rendered so the form doesn't jump -->
+    <div class="alert-slot">
+      @if (status().type) {
+        <div
+          class="alert mb-0 d-flex align-items-center w-100"
+          [class.alert-success]="status().type === 'success'"
+          [class.alert-danger]="status().type === 'error'"
+          role="alert"
+        >
+          @if (status().type === 'success') {
+            <i class="bi bi-check-circle me-2"></i>
+          } @else {
+            <i class="bi bi-exclamation-circle me-2"></i>
+          }
+          <span>{{ status().message }}</span>
+        </div>
+      }
+    </div>
+
+  </div>
+</div>

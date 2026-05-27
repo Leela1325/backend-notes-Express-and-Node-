@@ -1,0 +1,63 @@
+<div class="product-charts">
+  <!-- Metric cards -->
+  <div class="metrics-grid">
+    <div class="metric-card">
+      <span class="metric-label">Total revenue</span>
+      <span class="metric-value">₹{{ totalRevenue.toLocaleString('en-IN') }}</span>
+    </div>
+    <div class="metric-card">
+      <span class="metric-label">Units sold</span>
+      <span class="metric-value">{{ totalUnits | number }}</span>
+    </div>
+    <div class="metric-card">
+      <span class="metric-label">Avg price</span>
+      <span class="metric-value">₹{{ avgPrice.toLocaleString('en-IN') }}</span>
+    </div>
+    <div class="metric-card">
+      <span class="metric-label">Peak month</span>
+      <span class="metric-value">{{ peakMonth }}</span>
+    </div>
+  </div>
+
+  <div class="chart-section">
+    <h3 class="chart-title">Monthly revenue vs units sold</h3>
+    @if (mixedChartOptions) {
+      <apx-chart
+        #mixedChartRef
+        [series]="mixedChartOptions.series"
+        [chart]="mixedChartOptions.chart"
+        [xaxis]="mixedChartOptions.xaxis"
+        [yaxis]="mixedChartOptions.yaxis"
+        [stroke]="mixedChartOptions.stroke"
+        [plotOptions]="mixedChartOptions.plotOptions"
+        [fill]="mixedChartOptions.fill"
+        [grid]="mixedChartOptions.grid"
+        [tooltip]="mixedChartOptions.tooltip"
+        [legend]="mixedChartOptions.legend"
+        [colors]="mixedChartOptions.colors"
+        [dataLabels]="mixedChartOptions.dataLabels"
+      ></apx-chart>
+    }
+  </div>
+
+  <div class="chart-section">
+    <h3 class="chart-title">Sales heatmap — day of week × month</h3>
+    @if (heatmapChartOptions) {
+      <apx-chart
+        #heatmapChartRef
+        [series]="heatmapChartOptions.series"
+        [chart]="heatmapChartOptions.chart"
+        [xaxis]="heatmapChartOptions.xaxis"
+        [yaxis]="heatmapChartOptions.yaxis"
+        [plotOptions]="heatmapChartOptions.plotOptions"
+        [dataLabels]="heatmapChartOptions.dataLabels"
+        [grid]="heatmapChartOptions.grid"
+        [tooltip]="heatmapChartOptions.tooltip"
+        [legend]="heatmapChartOptions.legend"
+        [colors]="heatmapChartOptions.colors"
+        [theme]="heatmapChartOptions.theme"
+      ></apx-chart>
+    }
+  </div>
+
+</div>

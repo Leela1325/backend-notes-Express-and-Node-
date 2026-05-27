@@ -1,0 +1,31 @@
+:host {
+  display: block;
+}
+
+.skeleton-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  height: 260px;
+  padding: 0 4px;
+}
+
+.skeleton-bar {
+  flex: 1;
+  background: linear-gradient(110deg, #f0f1f5 30%, #e8e9ed 50%, #f0f1f5 70%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+  border-radius: 4px 4px 0 0;
+}
+
+.skeleton-axis {
+  height: 2px;
+  background: #ebebf0;
+  border-radius: 2px;
+  margin: 0 4px;
+}
+
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}

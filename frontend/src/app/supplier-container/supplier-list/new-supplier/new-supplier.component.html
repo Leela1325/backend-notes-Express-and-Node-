@@ -1,0 +1,124 @@
+<div class="popup-overlay" (click)="close.emit()"></div>
+
+<div class="popup-modal">
+  <div class="d-flex align-items-center justify-content-between mb-4">
+    <div class="d-flex align-items-center gap-2">
+      <i class="bi bi-building-add text-success fs-5"></i>
+      <h6 class="fw-bold m-0 text-dark">Supplier Onboarding</h6>
+    </div>
+    <button class="btn-close btn-close-sm" (click)="close.emit()"></button>
+  </div>
+
+  <form #f="ngForm" (ngSubmit)="addSupplier(f)" class="modern-form">
+    <div class="row g-3">
+
+      <div class="col-12">
+        <label class="form-label-custom">Supplier Name*</label>
+        <input type="text" class="form-control custom-input"
+          ngModel name="name"
+          required
+          minlength="3"
+          pattern="^[a-zA-Z].*\d*$"
+          #nameRef="ngModel"
+          placeholder="Enter legal business name">
+        <div *ngIf="nameRef.invalid && nameRef.touched" class="val-error">
+          <span *ngIf="nameRef.errors?.['required']">Name is required.</span>
+          <span *ngIf="!nameRef.errors?.['required'] && nameRef.errors?.['pattern']">Invalid Name .</span>
+          <span *ngIf="!nameRef.errors?.['required'] && !nameRef.errors?.['pattern'] && nameRef.errors?.['minlength']">Minimum 3 characters required.</span>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label-custom">Contact Number*</label>
+        <input type="text" class="form-control custom-input"
+          ngModel name="contact"
+          required
+          (input)="checkContact(contactRef.value)"
+          maxlength="10"
+          pattern="^[6-9][0-9]{9}$"
+          #contactRef="ngModel"
+          placeholder="9XXXXXXXXX">
+           <div *ngIf="contactexists" class="val-error">
+      <span>Contact number already exists.</span>
+      </div>
+        <div *ngIf="contactRef.invalid && contactRef.touched" class="val-error">
+          
+     
+          <span *ngIf="contactRef.errors?.['required']">Contact number is required.</span>
+          <span *ngIf="!contactRef.errors?.['required'] && contactRef.errors?.['pattern'] && !isDigitsOnly(contactRef.value)">Only digits are allowed.</span>
+          <span *ngIf="!contactRef.errors?.['required'] && contactRef.errors?.['pattern'] && isDigitsOnly(contactRef.value) && !startsWithValid(contactRef.value)">Number must start with 6, 7, 8, or 9.</span>
+          <span *ngIf="!contactRef.errors?.['required'] && contactRef.errors?.['pattern'] && isDigitsOnly(contactRef.value) && startsWithValid(contactRef.value)">Must be exactly 10 digits.</span>
+        </div>
+      </div>
+
+
+      <div class="col-md-6">
+        <label class="form-label-custom">Email Address*</label>
+        <input type="email" class="form-control custom-input"
+  ngModel name="email"
+  required
+  pattern="^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9\-]+\.[a-zA-Z]{2,}$"
+  #emailRef="ngModel"
+  (input)="checkEmail(emailRef.value)"
+  placeholder="vendor@company.com">
+   <div *ngIf="emailexists" class="val-error">
+      <span>Email id  already exists.</span>
+      </div>
+<div *ngIf="emailRef.invalid && emailRef.touched" class="val-error">
+  <span *ngIf="emailRef.errors?.['required']">Email is required.</span>
+  <span *ngIf="!emailRef.errors?.['required'] && emailRef.errors?.['pattern']">Enter a valid email address (e.g. name&#64;domain.com).</span>
+</div>
+      </div>
+
+      <div class="col-12">
+        <label class="form-label-custom">Office Address*</label>
+        <textarea rows="2" class="form-control custom-input"
+          ngModel name="address"
+          required
+          minlength="5"
+          pattern="^[a-zA-Z_+-\.0-9].*"
+          #addressRef="ngModel"
+          placeholder="Street, City, State"></textarea>
+        <div *ngIf="addressRef.invalid && addressRef.touched" class="val-error">
+          <span *ngIf="addressRef.errors?.['required']">Address is required.</span>
+          <span *ngIf="!addressRef.errors?.['required'] && addressRef.errors?.['pattern']">Address cannot be blank or spaces only.</span>
+          <span *ngIf="!addressRef.errors?.['required'] && !addressRef.errors?.['pattern'] && addressRef.errors?.['minlength']">Minimum 5 characters required.</span>
+        </div>
+      </div>
+
+      <div class="col-12">
+        <label class="form-label-custom d-block">Status*</label>
+        <div class="btn-group" role="group">
+          <input type="radio" class="btn-check"
+            name="active" id="newActive"
+            [value]="true" ngModel
+            autocomplete="off">
+          <label class="btn btn-outline-success btn-sm px-4 rounded-start-pill" for="newActive">
+            Active
+          </label>
+          <input  required type="radio" class="btn-check"
+            name="active" id="newInactive"
+            [value]="false" ngModel
+            autocomplete="off">
+          <label class="btn btn-outline-secondary btn-sm px-4 rounded-end-pill" for="newInactive">
+            Inactive
+          </label>
+        </div>
+      </div>
+
+      <div class="col-12 pt-3 border-top d-flex justify-content-end gap-2">
+        <button type="button"
+          class="btn btn-light rounded-pill px-4 fw-bold text-secondary"
+          (click)="close.emit()">
+          Cancel
+        </button>
+        <button type="submit"
+          class="btn btn-success rounded-pill px-4 fw-bold shadow-sm"
+          [disabled]="f.invalid || contactexists || emailexists">
+          Add Supplier
+        </button>
+      </div>
+
+    </div>
+  </form>
+</div>

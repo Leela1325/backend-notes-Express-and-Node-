@@ -1,0 +1,24 @@
+import express from "express";
+import productSummary from "../controllers/dashboard/productSummary.controller.js";
+import todaySales from "../controllers/dashboard/todaySalesSummary.controller.js";
+import zonesSummary from "../controllers/dashboard/zonesSummary.controller.js";
+import ticketSummary from "../controllers/dashboard/ticketSummary.controller.js";
+import recentActivity from "../controllers/dashboard/recentActivity.controller.js";
+import expiringProducts from "../controllers/dashboard/expiringProducts.controller.js";
+import salesSummary from "../controllers/dashboard/salesSummary.controller.js";
+import stockInStockOut from "../controllers/dashboard/stockInStockOut.controller.js";
+import getCategoryDistrubitionByZoneId from "../controllers/dashboard/getCategoryDistributionByZoneId.js";
+import getZones from "../controllers/dashboard/zones.controller.js";
+const router = express.Router();
+
+router.get("/productSummary", productSummary);
+router.get("/todaySalesSummary", todaySales );
+router.get("/zonesSummary", zonesSummary);
+router.get("/ticketSummary", ticketSummary);
+router.get("/recentActivity",recentActivity );
+router.get("/expiringProducts",expiringProducts );
+router.get("/salesSummary", salesSummary );
+router.get("/stockInStockOut",stockInStockOut );
+router.get("/getCategoryDistrubitionByZoneId", getCategoryDistrubitionByZoneId);
+router.get("/zones",getZones );
+export default router;

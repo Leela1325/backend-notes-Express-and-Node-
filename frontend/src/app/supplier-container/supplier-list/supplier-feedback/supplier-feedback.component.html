@@ -1,0 +1,129 @@
+<div class="feedback-container p-4">
+  <div class=" mb-4">
+    <h4 class="fw-bold text-dark m-0">{{ supplier().name }} <span class="text-success">Feedback</span></h4>
+    <p class="text-secondary small">Rate your experience across key performance metrics</p>
+  </div>
+
+  <form #f="ngForm" (ngSubmit)="submitFeedback(f)" class="feedback-form">
+    <div class="row g-4">
+
+      <div class="col-md-6">
+        <div class="metric-card">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <label class="metric-label">Clarity & Requirements</label>
+            <span class="badge rounded-pill bg-success-light-custom text-success">
+              {{ f.controls['rating1']?.value || 3 }}/5
+            </span>
+          </div>
+          <div class="btn-group " role="group">
+            <ng-container *ngFor="let star of [1,2,3,4,5]">
+              <input type="radio" class="btn-check"
+                [id]="'r1_' + star" name="rating1"
+                [ngModel]="3" [value]="star" autocomplete="off">
+              <label class="btn btn-outline-warning star-btn-label" [for]="'r1_' + star">
+                {{ star }}&starf;
+              </label>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="metric-card">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <label class="metric-label">Communication Speed</label>
+            <span class="badge rounded-pill bg-success-light text-success">
+              {{ f.controls['rating2']?.value || 3 }}/5
+            </span>
+          </div>
+          <div class="btn-group star-btn-group" role="group">
+            <ng-container *ngFor="let star of [1,2,3,4,5]">
+              <input type="radio" class="btn-check"
+                [id]="'r2_' + star" name="rating2"
+                [ngModel]="3" [value]="star" autocomplete="off">
+              <label class="btn btn-outline-warning star-btn-label" [for]="'r2_' + star">
+                {{ star }}&starf;
+              </label>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="metric-card">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <label class="metric-label">Onboarding Experience</label>
+            <span class="badge rounded-pill bg-success-light text-success">
+              {{ f.controls['rating3']?.value || 3 }}/5
+            </span>
+          </div>
+          <div class="btn-group star-btn-group" role="group">
+            <ng-container *ngFor="let star of [1,2,3,4,5]">
+              <input type="radio" class="btn-check"
+                [id]="'r3_' + star" name="rating3"
+                [ngModel]="3" [value]="star" autocomplete="off">
+              <label class="btn btn-outline-warning star-btn-label" [for]="'r3_' + star">
+                {{ star }}&starf;
+              </label>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="metric-card">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <label class="metric-label">Ease of Process</label>
+            <span class="badge rounded-pill bg-success-light text-success">
+              {{ f.controls['rating4']?.value || 3 }}/5
+            </span>
+          </div>
+          <div class="btn-group star-btn-group" role="group">
+            <ng-container *ngFor="let star of [1,2,3,4,5]">
+              <input type="radio" class="btn-check"
+                [id]="'r4_' + star" name="rating4"
+                [ngModel]="3" [value]="star" autocomplete="off">
+              <label class="btn btn-outline-warning star-btn-label" [for]="'r4_' + star">
+                {{ star }}&starf;
+              </label>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12">
+        <div class="metric-card highlight-metric">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <label class="metric-label fw-bold text-dark">Overall Relationship</label>
+            <span class="badge rounded-pill bg-success text-white px-3">
+              {{ f.controls['rating5']?.value || 3 }} / 5.0
+            </span>
+          </div>
+          <div class="btn-group star-btn-group" role="group">
+            <ng-container *ngFor="let star of [1,2,3,4,5]">
+              <input type="radio" class="btn-check"
+                [id]="'r5_' + star" name="rating5"
+                [ngModel]="3" [value]="star" autocomplete="off">
+              <label class="btn btn-outline-warning star-btn-label" [for]="'r5_' + star">
+                {{ star }}&starf;
+              </label>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 mt-4 d-flex justify-content-end gap-2 border-top pt-4">
+        <button type="button"
+          class="btn btn-light rounded-pill px-4"
+          (click)="onCancel()">
+          Skip
+        </button>
+        <button type="submit"
+          class="btn btn-success rounded-pill px-5 fw-bold shadow-sm">
+          Submit Feedback
+        </button>
+      </div>
+
+    </div>
+  </form>
+</div>

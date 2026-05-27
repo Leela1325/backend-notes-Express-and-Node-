@@ -1,0 +1,37 @@
+<div class="card h-100 shadow-sm p-4 border-2 zone-card-hover" 
+     (click)="onCategoryClick()" 
+     style="border-radius: 16px; background-color: #ffffff; cursor: pointer;">
+  
+  <div class="d-flex justify-content-between align-items-start mb-3 gap-3">
+    <div class="flex-grow-1 overflow-hidden">
+      <h3 class="h5 fw-bold mb-1 text-dark text-truncate" [title]="category().name">
+        {{ category().name }}
+      </h3>
+      
+      <p class="small mb-2 text-secondary text-truncate">
+        {{ category().productCount === 0 ? 'No inventory currently assigned' : 'Managing ' + category().productCount + ' active stock items' }}
+      </p>
+
+      <span class="badge rounded-pill px-3 py-2 bg-success-subtle text-success fw-bold" style="font-size: 0.75rem; white-space: nowrap;">
+        <i class="bi bi-check2-circle me-1"></i> Active
+      </span>
+    </div>
+    
+    <div class="opacity-75 flex-shrink-0">
+      <i class="bi bi-tag-fill fs-3 text-success"></i> 
+    </div>
+  </div>
+
+  <div class="pt-3 mt-auto border-top border-light-subtle">
+    <div class="d-flex justify-content-between mb-2 gap-2">
+      <span class="text-secondary small">Total Products</span>
+      <span class="fw-bold text-dark">{{ category().productCount }}</span>
+    </div>
+    <div class="d-flex justify-content-between gap-2">
+      <span class="text-secondary small text-nowrap">Stored in Zone</span>
+      <span class="fw-bold text-success text-truncate text-end" [title]="category().zoneName">
+        {{ category().zoneName }}
+      </span>
+    </div>
+  </div>
+</div>

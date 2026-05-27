@@ -1,0 +1,36 @@
+<div class="card h-100 shadow-sm p-4 border-2 category-card-hover d-flex flex-column" 
+     (click)="navigateToSuppliers()" 
+     style="border-radius: 16px; background-color: #ffffff;">
+  
+  <div class="d-flex  justify-content-between align-items-start mb-4">
+    <div>
+      <h5 class=" fw-bold mb-2 text-truncate name" style="color: #1F2937;">{{ name() }}</h5>
+      <p class=" rounded-pill  py-2 bg-light text-dark fw-semibold" style="font-size: 0.6rem;">
+    {{ categoryObject()?.description }}
+      </p>
+    </div>
+    <div class="text-secondar ps-1 opacity-50">
+      <i class="bi bi-tag-fill fs-3"></i>
+    </div>
+  </div>
+
+  <div class=" pt-3 border-top border-light-subtle">
+    <div class="d-flex justify-content-between mb-2">
+      <span class="text-secondary small">Total Suppliers</span>
+      <span class="fw-bold">{{ supplierArray().length }}</span>
+    </div>
+  </div>
+
+  <div class="mt-auto pt-3 border-top border-light-subtle">
+    <div class="row g-0 text-center">
+      <div class="col-6 border-end">
+        <div class="text-secondary small mb-1">ACTIVE</div>
+        <div class="fw-bold text-success">{{ active() }}</div>
+      </div>
+      <div class="col-6">
+        <div class="text-secondary small mb-1">INACTIVE</div>
+        <div class="fw-bold text-muted">{{ inactive() }}</div>
+      </div>
+    </div>
+  </div>
+</div>

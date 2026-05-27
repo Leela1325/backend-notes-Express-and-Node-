@@ -1,0 +1,12 @@
+.searchInput {
+    &:hover {
+        border:2px #198754 solid;
+    }
+}
+
+.searchFilterCard {
+    top: 100%;
+    max-height: 220px;
+    overflow-y: auto;
+    z-index: 999;
+}

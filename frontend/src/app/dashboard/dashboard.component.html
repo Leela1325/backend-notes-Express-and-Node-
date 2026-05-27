@@ -1,0 +1,56 @@
+<header class="bg-white px-4 py-3 border-bottom shadow-sm position-relative">
+  <div class="mx-auto">
+    <nav class="mb-1">
+      <span
+        class="text-success fw-bold text-uppercase"
+        style="font-size: 0.75rem"
+      >
+        Inventory System
+      </span>
+    </nav>
+    <div class="d-flex align-items-center justify-content-between">
+      <div class="d-flex align-items-center gap-3">
+        <div
+          class="bg-success bg-opacity-10 rounded-3 p-2 text-success d-flex align-items-center justify-content-center shadow-sm"
+          style="width: 42px; height: 42px"
+        >
+          <i class="bi bi-columns-gap fs-5"></i>
+        </div>
+        <div>
+          <h3 class="fw-bold text-dark mb-0 fs-5">Dashboard</h3>
+          <span class="text-muted small">Real-time Overview & Analytics</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+<div class="container" style="padding-top: 10px">
+  <div class="row g-4 mb-4">
+    <div class="col-md-4"><app-total-stock></app-total-stock></div>
+    <div class="col-md-4"><app-today-sales></app-today-sales></div>
+    <div class="col-md-4"><app-total-zones></app-total-zones></div>
+  </div>
+
+  <div class="row g-4 mb-4">
+    <div class="col-md-4">
+      <app-pending-tickets></app-pending-tickets>
+    </div>
+    <div class="col-md-4">
+      <app-activity></app-activity>
+    </div>
+    <div class="col-md-4">
+      <app-expiring-products></app-expiring-products>
+    </div>
+  </div>
+  <div class="row g-4 mb-4">
+    <app-sales-chart class="px-0"></app-sales-chart>
+  </div>
+  <div class="row g-4 mb-4">
+    <div class="col-md-6">
+      <app-zone-distribution-chart></app-zone-distribution-chart>
+    </div>
+    <div class="col-md-6">
+      <app-stockinout></app-stockinout>
+    </div>
+  </div>
+</div>

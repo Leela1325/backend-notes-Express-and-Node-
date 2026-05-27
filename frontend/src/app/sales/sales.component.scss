@@ -1,0 +1,192 @@
+:host {
+  display: block;
+  background-color: #f1f3f7;
+  min-height: 100vh;
+  font-family: "Montserrat", sans-serif;
+}
+h6 {
+  color: #ff914d;
+  margin-top: 10px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 15px;
+}
+.bell-icon {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+}
+.record {
+  background-color: #ffffff;
+  padding: 20px;
+  margin-bottom: 25px;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.08);
+  margin-top: 25px;
+  margin-right: 40px;
+}
+h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #2d3e50;
+  margin-bottom: 20px;
+  font-family: "Montserrat", sans-serif;
+}
+
+.record-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.today {
+  background-color: #ffffff;
+  padding: 20px;
+  margin-bottom: 25px;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.08);
+  margin-right: 40px;
+}
+.form-row {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  flex-wrap: wrap;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  min-width: 200px;
+}
+
+.form-group label {
+  font-weight: 500;
+  margin-bottom: 6px;
+}
+
+button {
+  background-color: #4caf50;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin-top: 30px;
+  padding-right: 10px;
+  padding-left: 10px;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
+}
+button:hover {
+  background-color: #43a047;
+}
+
+button img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+select,
+input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 200px;
+}
+
+.record-container {
+  display: flex;
+  justify-content: flex-start;
+}
+
+input {
+  margin-right: 50px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  table-layout: fixed;
+  background: white;
+}
+
+thead th {
+  background-color: #eef2f6;
+  color: #2d3e50;
+  font-weight: 600;
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 2px solid #d6dbe1;
+}
+tbody td {
+  padding: 10px 15px;
+  border-bottom: 1px solid #e4e7ec;
+  color: #333;
+}
+#cart-icon {
+  margin-right: 20px;
+}
+h1 {
+  font-family: "Montserrat", sans-serif;
+}
+.table-wrapper {
+  max-height: 280px; 
+  overflow-y: auto;
+  margin-bottom: 0px;
+}
+
+.table-wrapper thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+.table-wrapper::-webkit-scrollbar {
+  width: 6px;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb {
+  background: #c5cbd3;
+  border-radius: 5px;
+}
+.filter-select {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-family: "Montserrat", sans-serif;
+  font-size: 14px;
+}
+.body {
+  font-family: "Montserrat", sans-serif;
+}
+.form-control,
+.form-select {
+  height: 42px;
+}
+.table-responsive thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background-color: #f8f9fa; 
+}
+
+.table-responsive thead {
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.05);
+}
+.btn-warning {
+  color: #fff !important;
+}
+
+.btn-warning:hover,
+.btn-warning:focus,
+.btn-warning:active {
+  color: #fff !important;
+  background-color: #43a047;
+  border-color: #43a047;
+}
+.raise-ticket-btn,
+.raise-ticket-btn:hover,
+.raise-ticket-btn:focus,
+.raise-ticket-btn:active {
+  color: #fff !important;
+}

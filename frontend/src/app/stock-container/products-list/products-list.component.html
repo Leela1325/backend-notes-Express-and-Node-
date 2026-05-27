@@ -1,0 +1,518 @@
+<div class="container-fluid py-4 px-4"><!-- full width container with padding -->
+  <div
+    class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-4 mb-4 px-4 py-4 bg-white rounded-4 shadow-sm border border-light-subtle"
+  ><!-- header section with title, category/location badges, search bar, and action buttons -->
+    <div class="d-flex align-items-center gap-4">
+      <div class="pe-4 border-end border-light-subtle d-none d-md-block">
+        <h2 class="h5 fw-bold text-dark mb-1">Inventory Items</h2>
+        <p class="text-muted mb-0 small">Manage and track category stock</p>
+      </div>
+ 
+      <div class="d-flex align-items-center gap-4">
+        <div class="d-flex flex-column">
+          <span
+            class="text-uppercase text-secondary fw-bold mb-1"
+            style="font-size: 0.6rem; letter-spacing: 0.5px"
+            >Category</span
+          >
+          <span
+            class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 small d-flex align-items-center"
+          >
+            <i class="bi bi-tag-fill me-2"></i>
+            {{
+              products().length > 0
+                ? products()[0].categoryName
+                : "Frozen Foods"
+            }}
+          </span>
+        </div>
+ 
+        <div class="d-flex flex-column">
+          <span
+            class="text-uppercase text-secondary fw-bold mb-1"
+            style="font-size: 0.6rem; letter-spacing: 0.5px"
+            >Location</span
+          >
+          <span
+            class="badge bg-info-subtle text-info border border-info-subtle rounded-pill px-3 py-2 small d-flex align-items-center"
+          >
+            <i class="bi bi-geo-alt-fill me-2"></i>
+            {{
+              products().length > 0 ? products()[0].zoneName : "Cold Storage"
+            }}
+          </span>
+        </div>
+      </div>
+    </div>
+ 
+    <div class="d-flex flex-wrap align-items-center gap-2">
+      <div
+        class="input-group rounded-pill border shadow-none me-2"
+        style="width: 260px; background: #f8f9fa"
+      >
+        <span class="input-group-text bg-transparent border-0 ps-3">
+          <i class="bi bi-search text-muted"></i>
+        </span>
+        <input
+          type="text"
+          class="form-control bg-transparent border-0 shadow-none ps-1"
+          placeholder="Search products..."
+          (input)="onSearch($event)"
+        />
+      </div>
+ 
+      <button
+        (click)="refreshData()"
+        class="btn btn-outline-primary rounded-pill px-3 py-2 d-flex align-items-center border-2 shadow-none hover-lift"
+      >
+        <i class="bi bi-arrow-clockwise fs-5"></i>
+        <span class="ms-1 d-none d-sm-inline">Refresh</span>
+      </button>
+ 
+      <button
+        (click)="openModal()"
+        class="btn btn-success rounded-pill px-4 py-2 shadow-sm fw-bold border-2 d-flex align-items-center hover-lift"
+      >
+        <i class="bi bi-plus-lg me-2"></i>
+        <span>Add Product</span>
+      </button>
+    </div>
+  </div>
+ 
+  <div
+    class="d-flex flex-wrap gap-2 mb-4 px-3 py-2 bg-light rounded-3 align-items-center border border-light-subtle"
+  >
+    <span
+      class="text-secondary small fw-bold text-uppercase me-2"
+      style="font-size: 0.65rem; letter-spacing: 1px"
+    >
+      <i class="bi bi-filter-right fs-5 me-1"></i> Quick Filters:
+    </span>
+ 
+    <button
+      (click)="setSort('expiry')"
+      [class]="
+        sortType() === 'expiry'
+          ? 'btn btn-success btn-sm rounded-pill px-3 fw-bold shadow-sm'
+          : 'btn btn-outline-secondary btn-sm rounded-pill px-3 border-0'
+      "
+    >
+      <i class="bi bi-hourglass-split me-1"></i> Expiring Soon
+    </button>
+ 
+    <button
+      (click)="setSort('price')"
+      [class]="
+        sortType() === 'price'
+          ? 'btn btn-success btn-sm rounded-pill px-3 fw-bold shadow-sm'
+          : 'btn btn-outline-secondary btn-sm rounded-pill px-3 border-0'
+      "
+    >
+      <i class="bi bi-currency-dollar me-1"></i> Highest Price
+    </button>
+ 
+    <button
+      (click)="setSort('quantity')"
+      [class]="
+        sortType() === 'quantity'
+          ? 'btn btn-success btn-sm rounded-pill px-3 fw-bold shadow-sm'
+          : 'btn btn-outline-secondary btn-sm rounded-pill px-3 border-0'
+      "
+    >
+      <i class="bi bi-box-seam me-1"></i> Lowest Stock
+    </button>
+ 
+    <div class="ms-auto">
+      <button
+        (click)="setSort('none')"
+        class="btn btn-link btn-sm text-decoration-none text-muted small px-2 hover-opacity"
+      >
+        <i class="bi bi-x-circle me-1"></i> Reset
+      </button>
+    </div>
+  </div>
+ 
+  <div
+    class="card border-0 shadow-sm overflow-hidden"
+    style="border-radius: 16px; background: #ffffff"
+  >
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="bg-light border-bottom border-light-subtle">
+          <!-- <tr class="text-secondary small text-uppercase fw-bold" style="letter-spacing: 1px; font-size: 0.75rem">
+            <th class="ps-4 py-4" style="width: 25%">Product Details</th>
+            <th class="py-4 text-center">Total Qty</th>
+            <th class="py-4">Nearest Expiry</th>
+            <th class="py-4 text-end pe-4">Price</th>
+            <th class="py-4">Status</th>
+            <th class="py-4 text-center pe-4">Management</th>
+          </tr> -->
+          <tr
+            class="text-secondary small text-uppercase fw-bold"
+            style="letter-spacing: 0.5px; font-size: 0.7rem"
+          >
+            <th class="ps-3 py-3" style="width: 22%">Product Details</th>
+            <th class="py-3 text-center" style="width: 18%">Total Qty</th>
+            <th class="py-3" style="width: 18%">Nearest Expiry</th>
+            <th class="py-3 text-end" style="width: 14%">Price</th>
+            <th class="py-3" style="width: 10%">Status</th>
+            <th class="py-3 text-center" style="width: 18%">Management</th>
+          </tr>
+        </thead>
+ 
+        <tbody>
+          @for (item of sortedProducts(); track item.id) {
+            <tr
+              app-product
+              [product]="item"
+              (editProduct)="openEdit($event)"
+              (deleteProduct)="onDeleteProdcut($event)"
+              (batchDeleted)="loadProducts(categoryId())"
+              class="border-bottom border-light-subtle"
+            ></tr>
+          } @empty {
+            <tr>
+              <td colspan="7" class="text-center py-5 text-muted">
+                <i class="bi bi-inbox fs-1 mb-2 d-block opacity-25"></i>
+                <p class="mb-0 fw-semibold">No products found.</p>
+                <small>Add a new item to populate your inventory.</small>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+ 
+  @if (showModal()) {
+    <div
+      class="modal d-block"
+      tabindex="-1"
+      style="
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(4px);
+        z-index: 1050;
+      "
+    >
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div
+          class="modal-content border-0 shadow-lg"
+          style="border-radius: 20px; overflow: hidden"
+        >
+          <div class="modal-header border-0 p-4 pb-0 bg-white">
+            <h3
+              class="modal-title h5 fw-bold text-dark d-flex align-items-center"
+            >
+              <i class="bi bi-pencil-square text-success me-2 fs-4"></i>
+              {{ editingProductId() ? "Update Product" : "Register New Batch" }}
+            </h3>
+            <button
+              type="button"
+              (click)="closeModal()"
+              class="btn-close shadow-none"
+            ></button>
+          </div>
+ 
+          <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+            <div
+              class="modal-body p-4"
+              style="max-height: 75vh; overflow-y: auto"
+            >
+              <div class="row g-4">
+                <div class="col-12">
+                  <label
+                    class="form-label small fw-bold text-secondary text-uppercase"
+                    style="font-size: 0.65rem; letter-spacing: 0.5px"
+                    >Product Name</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control form-control-lg border-2 shadow-none"
+                    [class.is-invalid]="
+                      productForm.get('name')?.invalid &&
+                      productForm.get('name')?.touched
+                    "
+                   
+                    formControlName="name"
+                    (input)="onNameChange()"
+                    placeholder="Enter product name..."
+                  />
+                  <div
+                    class="invalid-feedback fw-bold"
+                    style="font-size: 0.75rem"
+                  >
+                    @if (productForm.get("name")?.errors?.["required"]) {
+                      <span
+                        ><i class="bi bi-exclamation-circle"></i> Name is
+                        required.</span
+                      >
+                    }
+                    @if (productForm.get("name")?.errors?.["minlength"]) {
+                      <span
+                        ><i class="bi bi-exclamation-circle"></i> Must be at
+                        least 3 characters.</span
+                      >
+                    }
+                    @if (productForm.get("name")?.errors?.["pattern"]) {
+                      <span
+                        ><i class="bi bi-exclamation-circle"></i> Only letters,
+                        numbers, and ( ) . , ' are allowed.</span
+                      >
+                    }
+                  </div>
+ 
+                  @if (currentStockForPrediction() > 0) {
+                    <div
+                      class="mt-3 p-3 bg-success-subtle rounded-3 border border-success-subtle"
+                    >
+                      <small
+                        class="text-success-emphasis fw-semibold d-flex align-items-center gap-2"
+                      >
+                        <i class="bi bi-database-fill-check fs-5"></i>
+                        <span
+                          >Product recognized. New total will be:
+                          <b
+                            >{{
+                              currentStockForPrediction() +
+                                (productForm.get("quantity")?.value || 0)
+                            }}
+                            units</b
+                          >
+                        </span>
+                      </small>
+                    </div>
+                  }
+                </div>
+ 
+                <div class="col-md-6">
+                  <label
+                    class="form-label small fw-bold text-secondary text-uppercase"
+                    style="font-size: 0.65rem"
+                    >Category (Locked)</label
+                  >
+                  <div class="input-group">
+                    <span class="input-group-text border-2 bg-secondary-subtle"
+                      ><i class="bi bi-lock-fill text-secondary"></i
+                    ></span>
+                    <div
+                      class="form-control border-2 bg-secondary-subtle text-secondary fw-semibold"
+                    >
+                      {{
+                        products().length > 0
+                          ? products()[0].categoryName
+                          : "System Assigned"
+                      }}
+                    </div>
+                  </div>
+                </div>
+ 
+                <div class="col-md-6">
+                  <label
+                    class="form-label small fw-bold text-secondary text-uppercase"
+                    style="font-size: 0.65rem"
+                    >Storage Zone (Locked)</label
+                  >
+                  <div class="input-group">
+                    <span class="input-group-text border-2 bg-secondary-subtle"
+                      ><i class="bi bi-geo-alt-fill text-secondary"></i
+                    ></span>
+                    <div
+                      class="form-control border-2 bg-secondary-subtle text-secondary fw-semibold"
+                    >
+                      {{
+                        products().length > 0
+                          ? products()[0].zoneName
+                          : "System Assigned"
+                      }}
+                    </div>
+                  </div>
+                </div>
+ 
+                <div class="col-12">
+                  <label
+                    class="form-label small fw-bold text-secondary text-uppercase"
+                    style="font-size: 0.65rem"
+                    >Select Supplier</label
+                  >
+                  <div
+                    class="supplier-grid d-flex flex-wrap gap-3 border p-3 rounded bg-light"
+                  >
+                    @for (sup of suppliers(); track sup.id) {
+                      <div class="form-check">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          [id]="sup.id"
+                          [checked]="isSupplierSelected(sup.id)"
+                          (change)="onSupplierToggle(sup.id, $event)"
+                        />
+                        <label class="form-check-label small" [for]="sup.id">{{
+                          sup.name
+                        }}</label>
+                      </div>
+                    }
+                  </div>
+                  @if (
+                    productForm.get("supplierids")?.invalid &&
+                    productForm.get("supplierids")?.touched
+                  ) {
+                    <small class="text-danger"
+                      >Please select at least one supplier.</small
+                    >
+                  }
+                </div>
+ 
+                <!-- ▼ ZONE CAPACITY ERROR BANNER — appears after a 409 from backend ▼ -->
+                @if (zoneCapacityError()) {
+                  <div class="col-12">
+                    <div
+                      class="d-flex align-items-start gap-3 p-3 rounded-3 border border-danger-subtle bg-danger-subtle"
+                      role="alert"
+                    >
+                      <i
+                        class="bi bi-exclamation-octagon-fill text-danger fs-4 flex-shrink-0 mt-1"
+                      ></i>
+                      <div class="d-flex flex-column">
+                        <span class="fw-bold text-danger small"
+                          >Zone Capacity Exceeded</span
+                        >
+                        <span class="text-danger-emphasis small mt-1">{{
+                          zoneCapacityError()
+                        }}</span>
+                        <span class="text-muted mt-2" style="font-size: 0.7rem">
+                          <i class="bi bi-lightbulb me-1"></i>
+                          Reduce the batch quantity or contact admin to expand
+                          zone capacity.
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                }
+                <!-- ▲ END ZONE CAPACITY ERROR BANNER ▲ -->
+ 
+                <div class="col-md-4">
+                  <label
+                    class="form-label small fw-bold text-secondary text-uppercase"
+                    style="font-size: 0.65rem"
+                    >Batch Quantity</label
+                  >
+                  <div class="input-group">
+                    <span class="input-group-text border-2"
+                      ><i class="bi bi-box-seam"></i
+                    ></span>
+                    <input
+                      type="number"
+                      class="form-control border-2 shadow-none"
+                      [class.is-invalid]="
+                        productForm.get('quantity')?.invalid &&
+                        productForm.get('quantity')?.touched
+                      "
+                      formControlName="quantity"
+                    />
+                    <div
+                      class="invalid-feedback fw-bold"
+                      style="font-size: 0.75rem"
+                    >
+                      <i class="bi bi-exclamation-circle"></i> Minimum 1 unit.
+                    </div>
+                  </div>
+                </div>
+ 
+                <div class="col-md-4">
+                  <label
+                    class="form-label small fw-bold text-secondary text-uppercase"
+                    style="font-size: 0.65rem"
+                    >Expiry Date</label
+                  >
+                  <input
+                    type="date"
+                    class="form-control border-2 shadow-none"
+                    [class.is-invalid]="
+                      productForm.get('expirydate')?.invalid &&
+                      productForm.get('expirydate')?.touched
+                    "
+                    formControlName="expirydate"
+                  />
+                  <div
+                    class="invalid-feedback fw-bold"
+                    style="font-size: 0.75rem"
+                  >
+                    @if (productForm.get("expirydate")?.errors?.["required"]) {
+                      <span>Required.</span>
+                    }
+                    @if (productForm.get("expirydate")?.errors?.["pastDate"]) {
+                      <span>Cannot be in the past.</span>
+                    }
+                  </div>
+                </div>
+ 
+                <div class="col-md-4">
+                  <label
+                    class="form-label small fw-bold text-secondary text-uppercase"
+                    style="font-size: 0.65rem"
+                    >Unit Price</label
+                  >
+                  <div class="input-group has-validation">
+                    <span
+                      class="input-group-text border-2 bg-success text-white"
+                      >₹</span
+                    >
+                    <input
+                      type="number"
+                      class="form-control border-2 shadow-none fw-bold"
+                      [class.is-invalid]="
+                        productForm.get('price')?.invalid &&
+                        productForm.get('price')?.touched
+                      "
+                      formControlName="price"
+                      placeholder="0.00"
+                    />
+                    <div
+                      class="invalid-feedback fw-bold"
+                      style="font-size: 0.75rem"
+                    >
+                      @if (productForm.get("price")?.errors?.["required"]) {
+                        <span
+                          ><i class="bi bi-exclamation-circle"></i> Price is
+                          required.</span
+                        >
+                      }
+                      @if (productForm.get("price")?.errors?.["min"]) {
+                        <span
+                          ><i class="bi bi-exclamation-circle"></i> Must be
+                          greater than 0.</span
+                        >
+                      }
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+ 
+            <div class="modal-footer border-0 p-4 pt-0 bg-white">
+              <button
+                type="button"
+                (click)="closeModal()"
+                class="btn btn-light rounded-pill px-4 fw-bold me-2 border"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                class="btn btn-success rounded-pill px-5 fw-bold shadow-sm d-flex align-items-center"
+                [disabled]="productForm.invalid"
+              >
+                <i class="bi bi-check-lg me-2"></i>
+                {{
+                  editingProductId() ? "Update Product" : "Save to Inventory"
+                }}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  }
+</div>
+ 
+ 

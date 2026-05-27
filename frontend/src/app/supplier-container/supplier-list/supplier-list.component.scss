@@ -1,0 +1,43 @@
+.supplier-header {
+  .xx-small {
+    font-size: 0.65rem;
+    letter-spacing: 0.05rem;
+  }
+
+  .xxx-small {
+    font-size: 0.5rem;
+  }
+
+  h6 {
+    font-size: 1.1rem;
+    letter-spacing: -0.01rem;
+  }
+
+  .header-line {
+    height: 1px;
+    background: linear-gradient(to right, #e9ecef, transparent);
+  }
+}
+
+.btn-success {
+  transition: all 0.2s ease-in-out;
+  letter-spacing: 0.3px;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(25, 135, 84, 0.25) !important;
+    background-color: #157347 !important; 
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+
+.blurred {
+  filter: blur(3px);
+  
+  transition: filter 0.2s ease;
+}
+

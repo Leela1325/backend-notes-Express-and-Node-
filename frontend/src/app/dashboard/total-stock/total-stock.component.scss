@@ -1,0 +1,30 @@
+.stock-card {
+  border-radius: 16px; // Softer rounded corners
+  background: #ffffff;
+  
+  
+  .icon-box {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background-color: rgba(13, 110, 253, 0.1); // Light blue tint
+    color: #0d6efd; // Bootstrap primary blue
+    font-size: 1.3rem;
+  }
+
+  h3 {
+    font-size: 1.75rem;
+    letter-spacing: -0.5px;
+  }
+
+  .border-end {
+    border-right: 1px solid #eee !important;
+  }
+
+  .text-secondary {
+    font-size: 0.75rem;
+  }
+}

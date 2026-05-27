@@ -1,0 +1,97 @@
+.register-user-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+// --- Form section: takes remaining height, centers the form ---
+.form-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  min-height: 0;
+}
+
+// --- Form card (taller) ---
+.form-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 600px;
+
+  .card-body {
+    padding: 44px 40px;
+  }
+
+  .form-hint {
+    font-size: 12px;
+    color: #6b7280;
+    margin-bottom: 28px;
+  }
+
+  // Taller input field
+  .staff-input-group {
+    margin-bottom: 12px;
+
+    .form-control,
+    .input-group-text {
+      height: 48px;
+    }
+  }
+}
+
+// --- Reserved space for inline validation error (no jump) ---
+.validation-slot {
+  min-height: 20px;
+}
+
+// --- Make Bootstrap's success green match the mockup shade ---
+.btn-success {
+  --bs-btn-bg: #10b981;
+  --bs-btn-border-color: #10b981;
+  --bs-btn-hover-bg: #059669;
+  --bs-btn-hover-border-color: #059669;
+  --bs-btn-active-bg: #047857;
+  --bs-btn-active-border-color: #047857;
+  --bs-btn-disabled-bg: #10b981;
+  --bs-btn-disabled-border-color: #10b981;
+}
+
+// Slightly taller buttons to match the bigger card
+.btn-success,
+.btn-outline-secondary {
+  padding: 11px 16px;
+}
+
+// --- Reserved space for the API status alert (no jump) ---
+.alert-slot {
+  width: 100%;
+  max-width: 600px;
+  min-height: 60px;
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+}
+
+// --- Mobile responsiveness ---
+@media (max-width: 576px) {
+  .form-section {
+    padding: 16px;
+  }
+
+  .form-card .card-body {
+    padding: 28px 20px;
+  }
+
+  // Stack buttons vertically on small screens
+  .btn-row {
+    flex-direction: column;
+  }
+
+  .alert-slot {
+    min-height: 70px;
+  }
+}

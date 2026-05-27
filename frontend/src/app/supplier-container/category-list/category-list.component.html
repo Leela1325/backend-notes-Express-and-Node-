@@ -1,0 +1,50 @@
+<div class="container-fluid px-4 pt-4 pb-3">
+<header class="category-header mb-5">
+<div class="d-flex align-items-center gap-2 mb-1">
+<a  class="btn btn-link p-0 text-decoration-none text-secondary hover-primary">
+        Zones
+</a>
+<i class="bi bi-chevron-right text-muted small"></i>
+<span class="text-dark fw-medium">Categories</span>
+</div>
+ 
+    <div class="d-flex justify-content-between align-items-end">
+<div *ngIf="zoneObject()">
+<h5 class="fw-bold m-0 text-dark tight">
+          {{ zoneObject().name }} <span class="text-success">Categories</span>
+</h5>
+<p class="text-secondary small m-0 mt-1">
+          Managing <span class="fw-bold text-success">{{ categoryArray().length }}</span> categories classifications in this sector
+</p>
+</div>
+</div>
+<div class="header-line mt-3"></div>
+</header>
+ 
+  <div class="row g-4">
+    @if (categoryArray().length > 0) {
+      @for(u of categoryArray(); track u.id) {
+<div class="col-12 col-md-6 col-lg-4">
+<app-category 
+            [name]="u.name" 
+            [supplierArray]="u.suppliers" 
+            [categoryId]="u.id"
+            [categoryObject]="u">
+</app-category>
+</div>
+      }
+    } @else {
+<div class="col-12 text-center py-5">
+<div class="d-flex flex-column align-items-center justify-content-center">
+<div class="bg-light rounded-circle p-4 mb-3 d-flex align-items-center justify-content-center" 
+               style="width: 100px; height: 100px;">
+<i class="bi bi-tags text-muted display-4"></i>
+</div>
+<h4 class="fw-bold text-dark">No Categories Found</h4>
+<p class="text-muted">There are currently no categories assigned to the {{ zoneObject()?.name }} zone.</p>
+
+</div>
+</div>
+    }
+</div>
+</div>
